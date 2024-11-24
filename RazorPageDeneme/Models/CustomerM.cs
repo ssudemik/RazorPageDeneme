@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RazorPageDeneme.Models
 {
-    public class Customer
+    public class CustomerM
     {
         [Key]
         public int CustomerID { get; set; }

@@ -16,7 +16,7 @@ namespace RazorPageDeneme.Models
         
 
         public virtual ProductM Product { get; set; }//ürün                                        
-        public virtual Customer Customer { get; set; }//müşteri                        
+        public virtual CustomerM Customer { get; set; }//müşteri                        
        
     }
 }

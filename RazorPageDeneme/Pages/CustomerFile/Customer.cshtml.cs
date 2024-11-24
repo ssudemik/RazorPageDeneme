@@ -7,7 +7,7 @@ namespace RazorPageDeneme.Pages.CustomerFile
     public class CustomerModel : PageModel
     {
         private readonly Context _context;
-        public IEnumerable<Customer> Customers { get; set; }
+        public IEnumerable<CustomerM> Customers { get; set; }
         public CustomerModel(Context context)
         {
             _context = context;

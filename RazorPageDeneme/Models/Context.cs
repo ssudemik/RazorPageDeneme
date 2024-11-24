@@ -10,7 +10,7 @@ namespace RazorPageDeneme.Models
         public Context(DbContextOptions<Context> options) : base(options) {}
         //sınıf isimleri ile tablo isimlerinin karışmaması için
         public DbSet<ProductM> Products { get; set; }
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<CustomerM> Customers { get; set; }
         public DbSet<SalesTransaction> SalesTransactions { get; set; }
 
        
