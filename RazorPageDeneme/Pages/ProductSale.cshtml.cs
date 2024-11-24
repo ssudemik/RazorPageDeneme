@@ -14,9 +14,10 @@ namespace RazorPageDeneme.Pages
             _context = context;
         }
 
+        [BindProperty]
         public SalesTransaction SalesTransaction { get; set; }
+        public Product Product { get; set; }
         public List<SelectListItem> Customers { get; set; }
-        public decimal ProductPrice { get; set; }
 
         public void OnGet(int id)
         {
@@ -24,6 +25,11 @@ namespace RazorPageDeneme.Pages
             var product = _context.Products.Find(id);
             if (product != null)
             {
+                    Text = c.CustomerName,
+                    Value = c.CustomerID.ToString()
+                }).ToList();
+
+            // Başlangıç değerleri
                 SalesTransaction = new SalesTransaction
                 {
                     ProductID = product.ProductID,
