@@ -1,0 +1,41 @@
+﻿@page "{id:int}"
+@model ProductSaleModel
+
+<h2>Product Sale</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label>Product Name:</label>
+        <input type="text" value="@Model.Product.ProductName" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label>Customer:</label>
+        <select asp-for="SalesTransaction.CustomerID" asp-items="Model.Customers" class="form-control"></select>
+    </div>
+
+    <div class="form-group">
+        <label>Quantity:</label>
+        <input type="number" asp-for="SalesTransaction.Piece" class="form-control" onchange="calculateTotal()" />
+    </div>
+
+    <div class="form-group">
+        <label>Price per Unit:</label>
+        <input type="text" value="@Model.Product.SalePrice" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label>Total Price:</label>
+        <input type="text" id="totalPrice" class="form-control" readonly />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Complete Sale</button>
+</form>
+
+<script>
+    function calculateTotal() {
+        var quantity = document.querySelector('input[name="SalesTransaction.Piece"]').value;
+        var price = parseFloat("@Model.Product.SalePrice");
+        document.getElementById('totalPrice').value = quantity * price;
+    }
+</script>

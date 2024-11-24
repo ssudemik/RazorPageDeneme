@@ -1,4 +1,49 @@
-﻿@page
+﻿@page "{id:int}"
 @model RazorPageDeneme.Pages.SalesTransactionModel
 @{
+    ViewData["Title"] = "Sales Transaction";
 }
+
+<h2>Sales Transaction</h2>
+
+<form method="post" class="form-group">
+    <div class="form-group">
+        <label>Product Name</label>
+        <input type="text" class="form-control" value="@Model.Product?.ProductName" readonly />
+        <input type="hidden" asp-for="SalesTransaction.ProductID" />
+    </div>
+
+    <div class="form-group">
+        <label>Price</label>
+        <input type="text" class="form-control" value="@Model.SalesTransaction?.Price" id="txtPrice" readonly />
+    </div>
+
+    <div class="form-group">
+        <label>Customer</label>
+        <select asp-for="SalesTransaction.CustomerID" asp-items="Model.Customers" class="form-control">
+            <option value="">-- Select a Customer --</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Quantity</label>
+        <input asp-for="SalesTransaction.Piece" type="number" class="form-control" id="txtQuantity" min="1" max="100" onchange="calculateTotal()" />
+    </div>
+
+    <div class="form-group">
+        <label>Total Price</label>
+        <input asp-for="SalesTransaction.SumPrice" class="form-control" id="txtTotal" readonly />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Complete Sale</button>
+</form>
+
+<script>
+    function calculateTotal() {
+        var price = parseFloat(document.getElementById('txtPrice').value) || 0;
+        var quantity = parseInt(document.getElementById('txtQuantity').value) || 0;
+        document.getElementById('txtTotal').value = price * quantity;
+    }
+</script>
+
+

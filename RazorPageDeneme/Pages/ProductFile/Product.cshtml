@@ -1,6 +1,5 @@
-﻿ @page
-@using RazorPageDeneme.Models
-@model RazorPageDeneme.Pages.ProductModel
+﻿@page
+@model RazorPageDeneme.Pages.ProductFile.ProductModel
 @{
     <br />
     <h2>Product</h2>
@@ -21,7 +20,7 @@
         </thead>
         <tbody>
         
-        @foreach (Product p in Model.Products)
+        @foreach (var p in Model.Products)
         {
             <tr>
                 <td> @p.ProductID</td>
@@ -46,13 +45,13 @@
 
                 </td>
                 <td>
-                    <a href="/Product/ProductDelete/@p.ProductID" class="btn btn-danger"> Delete </a>
+                        <a href="@Url.Page("/ProductFile/ProductDelete", new { id = p.ProductID })" class="btn btn-danger"> Delete </a>
                 </td>
                 <td>
-                    <a href="/Product/ProductList/@p.ProductID" class="btn btn-success"> Update </a>
+                        <a href="@Url.Page("/ProductFile/ProductUpdate", new { id = p.ProductID })" class="btn btn-success"> Update </a>
                 </td>
                 <td>
-                     <a href="@Url.Page("/ProductSale", new { id = p.ProductID })" class="btn btn-success"> Sale </a>
+                     <a href="@Url.Page("/ProductFile/ProductSale", new { id = p.ProductID })" class="btn btn-success"> Sale </a>
                 </td>
             </tr>
         }
@@ -60,7 +59,7 @@
     </table>
 
     <br />
-    <a href="/Product/NewProduct/" class="btn btn-info" style="color:white"> Add Product </a>
+    <a asp-page="/ProductFile/ProductAdd" class="btn btn-info" style="color:white">Add Product</a>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 

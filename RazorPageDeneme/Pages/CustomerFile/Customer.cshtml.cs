@@ -2,17 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RazorPageDeneme.Models;
 
-namespace RazorPageDeneme.Pages
+namespace RazorPageDeneme.Pages.CustomerFile
 {
     public class CustomerModel : PageModel
     {
         private readonly Context _context;
-
-        public List<Customer> Customers { get; set; } = new List<Customer>();
-
-        [BindProperty]
-        public Customer NewCustomer { get; set; }
-
+        public IEnumerable<Customer> Customers { get; set; }
         public CustomerModel(Context context)
         {
             _context = context;
@@ -20,12 +15,6 @@ namespace RazorPageDeneme.Pages
         public void OnGet()
         {
             Customers = _context.Customers.ToList();
-        }
-        public IActionResult OnPost()
-        {
-            _context.Customers.Add(NewCustomer);
-            _context.SaveChanges();
-            return RedirectToPage();
         }
     }
 }

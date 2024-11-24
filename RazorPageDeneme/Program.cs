@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RazorPageDeneme.Models;
+using System.Configuration;
 
 namespace RazorPageDeneme
 {
@@ -12,12 +13,13 @@ namespace RazorPageDeneme
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddRazorPages();
+            builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
             // builder.Services.AddDbContext<Context>();
 
-           
-            builder.Services.AddDbContext<Context>(options =>
+       
+
+        builder.Services.AddDbContext<Context>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("Context")));
 
             var app = builder.Build();
