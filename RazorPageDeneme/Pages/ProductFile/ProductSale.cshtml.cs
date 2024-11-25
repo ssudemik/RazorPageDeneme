@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RazorPageDeneme.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Linq;
 
 namespace RazorPageDeneme.Pages.ProductFile
 {
@@ -15,44 +16,42 @@ namespace RazorPageDeneme.Pages.ProductFile
         }
 
         [BindProperty]
-        public SalesTransaction SalesTransaction { get; set; }
+        public SalesTransactionM SalesTransaction { get; set; }
+
+        [BindProperty]
         public ProductM Product { get; set; }
-        public List<SelectListItem> Customers { get; set; }
+
+        public SelectList Customers { get; set; }
 
         public void OnGet(int id)
         {
-            // Ürün bilgilerini yükle
-            Product = _context.Products.Find(id);
-
-            // Müþteri listesini doldur
-            Customers = _context.Customers
-                .Select(c => new SelectListItem
-                {
-                    Text = c.CustomerName,
-                    Value = c.CustomerID.ToString()
-                }).ToList();
-
-            // Baþlangýç deðerleri
-            SalesTransaction = new SalesTransaction
+            Product = _context.Products.FirstOrDefault(p => p.ProductID == id);
+            Customers = new SelectList(_context.Customers.Select(x => new
             {
-                ProductID = Product.ProductID,
-                Price = Product.SalePrice
-            };
+                Text = x.CustomerName + " " + x.CustomerSurname,
+                Value = x.CustomerID
+            }).ToList(), "Value", "Text");
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
-            if (!ModelState.IsValid)
+            if (SalesTransaction == null || Product == null)
             {
                 return Page();
             }
 
-            // Satýþ iþlemini kaydet
             SalesTransaction.Date = DateTime.Now;
             _context.SalesTransactions.Add(SalesTransaction);
-            _context.SaveChanges();
 
-            return RedirectToPage("/Products"); // Ürünler sayfasýna dön
+            var productInDb = _context.Products.FirstOrDefault(p => p.ProductID == SalesTransaction.ProductID);
+            if (productInDb != null)
+            {
+                productInDb.Stock -= (short)SalesTransaction.Piece;
+            }
+
+            _context.SaveChangesAsync();
+
+            return RedirectToPage("Product");
         }
     }
 }

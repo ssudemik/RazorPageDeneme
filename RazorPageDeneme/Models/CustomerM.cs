@@ -30,7 +30,7 @@ namespace RazorPageDeneme.Models
         public string? CustomerMail { get; set; }
 
         public bool Status { get; set; }
-        public ICollection<SalesTransaction> SalesTransactions { get; set; }
+        public ICollection<SalesTransactionM> SalesTransactions { get; set; }
 
     }
 }

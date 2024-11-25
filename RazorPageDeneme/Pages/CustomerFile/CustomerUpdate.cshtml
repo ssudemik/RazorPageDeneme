@@ -1,12 +1,13 @@
 ﻿@page
-@model RazorPageDeneme.Pages.CustomerFile.CustomerAddModel
+@model RazorPageDeneme.Pages.CustomerFile.CustomerUpdateModel
 @{
-    ViewData["Title"] = "New Customer";
+    ViewData["Title"] = "Update Customer";
 }
 <form method="post">
+    <input hidden asp-for="Customer.CustomerID" />
     <div class="border p-3 mt-4">
         <div class="row pb-2">
-            <h2 class="text-primary pl-3">New Customer</h2>
+            <h2 class="text-primary pl-3">Update Customer</h2>
         </div>
         <div class="mb-3">
             <label asp-for="Customer.CustomerName"></label>
@@ -45,3 +46,4 @@
         <button type="submit" class="btn btn-primary">Save</button>
     </div>
 </form>
+

@@ -11,7 +11,7 @@ namespace RazorPageDeneme.Models
         //sınıf isimleri ile tablo isimlerinin karışmaması için
         public DbSet<ProductM> Products { get; set; }
         public DbSet<CustomerM> Customers { get; set; }
-        public DbSet<SalesTransaction> SalesTransactions { get; set; }
+        public DbSet<SalesTransactionM> SalesTransactions { get; set; }
 
        
     }

@@ -1,15 +1,13 @@
 ﻿@page
-@model RazorPageDeneme.Pages.ProductFile.ProductAddModel
+@model RazorPageDeneme.Pages.ProductFile.ProductUpdateModel
 @{
-    ViewData["Title"] = "New Product";
+    ViewData["Title"] = "Update Product";
 }
-
-
-
 <form method="post">
+    <input hidden asp-for="Product.ProductID" />
     <div class="border p-3 mt-4">
         <div class="row pb-2">
-            <h2 class="text-primary pl-3">New Product</h2>
+            <h2 class="text-primary pl-3">Update Product</h2>
         </div>
         <div class="mb-3">
             <label asp-for="Product.ProductName"></label>

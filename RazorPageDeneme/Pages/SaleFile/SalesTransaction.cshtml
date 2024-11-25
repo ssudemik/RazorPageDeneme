@@ -1,5 +1,5 @@
-﻿@page "{id:int}"
-@model RazorPageDeneme.Pages.SalesTransactionModel
+﻿@page
+@model RazorPageDeneme.Pages.SaleFile.SalesTransactionModel
 @{
     ViewData["Title"] = "Sales Transaction";
 }
@@ -7,15 +7,19 @@
 <h2>Sales Transaction</h2>
 
 <form method="post" class="form-group">
+    <!-- Hidden Product ID -->
+    <input hidden asp-for="SalesTransaction.ProductID" />
+
     <div class="form-group">
-        <label>Product Name</label>
-        <input type="text" class="form-control" value="@Model.Product?.ProductName" readonly />
-        <input type="hidden" asp-for="SalesTransaction.ProductID" />
+        <label>Product</label>
+        <select asp-for="SalesTransaction.ProductID" asp-items="Model.Products" class="form-control" onchange="updatePrice()">
+            <option value="">-- Select a Product --</option>
+        </select>
     </div>
 
     <div class="form-group">
         <label>Price</label>
-        <input type="text" class="form-control" value="@Model.SalesTransaction?.Price" id="txtPrice" readonly />
+        <input type="text" class="form-control" value="@Model.Product?.SalePrice" id="txtPrice" readonly />
     </div>
 
     <div class="form-group">
@@ -45,5 +49,3 @@
         document.getElementById('txtTotal').value = price * quantity;
     }
 </script>
-
-
