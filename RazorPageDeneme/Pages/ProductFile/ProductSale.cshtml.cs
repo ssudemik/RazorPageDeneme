@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using RazorPageDeneme.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Linq;
+using RazorPageDeneme.Pages.SaleFile;
 
 namespace RazorPageDeneme.Pages.ProductFile
 {
@@ -17,41 +18,67 @@ namespace RazorPageDeneme.Pages.ProductFile
 
         [BindProperty]
         public SalesTransactionM SalesTransaction { get; set; }
-
-        [BindProperty]
         public ProductM Product { get; set; }
 
-        public SelectList Customers { get; set; }
+        public List<SelectListItem> CustomerList { get; set; }
 
         public void OnGet(int id)
         {
             Product = _context.Products.FirstOrDefault(p => p.ProductID == id);
-            Customers = new SelectList(_context.Customers.Select(x => new
+
+            CustomerList = _context.Customers
+            .Select(x => new SelectListItem
             {
                 Text = x.CustomerName + " " + x.CustomerSurname,
-                Value = x.CustomerID
-            }).ToList(), "Value", "Text");
+                Value = x.CustomerID.ToString()
+            }).ToList();
         }
 
         public async Task<IActionResult> OnPost()
         {
-            if (SalesTransaction == null || Product == null)
+            if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-           
-            _context.SalesTransactions.Add(SalesTransaction);
+            // SalesTransaction nesnesinin deðerlerini kontrol et ve logla
+            Console.WriteLine($"ProductID: {SalesTransaction.ProductID}, CustomerID: {SalesTransaction.CustomerID}, Piece: {SalesTransaction.Piece}, Price: {SalesTransaction.Price}");
 
-            var productInDb = _context.Products.FirstOrDefault(p => p.ProductID == SalesTransaction.ProductID);
-            if (productInDb != null)
+            if (SalesTransaction.ProductID <= 0 || SalesTransaction.CustomerID <= 0 || SalesTransaction.Piece <= 0 || SalesTransaction.Price <= 0)
             {
-                productInDb.Stock -= (short)SalesTransaction.Piece;
+                ModelState.AddModelError(string.Empty, "Gerekli alanlar doldurulmamýþ.");
+                return Page();
             }
 
-            _context.SaveChangesAsync();
+            try
+            {
+                _context.SalesTransactions.Add(SalesTransaction);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "Satýþ iþlemi sýrasýnda bir hata oluþtu: " + ex.Message);
+                return Page();
+            }
 
-            return RedirectToPage("Product");
+            return RedirectToPage("/SaleFile/SalesTransaction");
         }
+
+        //public async Task<IActionResult> OnPost()
+        //{
+
+
+        //    //if (!ModelState.IsValid)
+        //    //{
+        //    //    // Model geçerli deðilse hata mesajlarýný döndür
+        //    //    return Page();
+        //    //}
+
+        //    //await _context.SalesTransactions.AddAsync(SalesTransaction);
+        //    //await _context.SaveChangesAsync();
+        //    //return Redirect("/SaleFile/SalesTransaction");
+
+
+        //}
     }
 }

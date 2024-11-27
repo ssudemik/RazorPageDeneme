@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RazorPageDeneme.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace RazorPageDeneme.Pages.SaleFile;
 
@@ -31,8 +32,9 @@ public class NewSaleModel : PageModel
         return new JsonResult(new { price = 0 }); // Ürün bulunamazsa 0 döner
     }
 
-    public void OnGet()
+    public void OnGet(int productId)
     {
+
         // Ürün ve müþteri listelerini doldur
         ProductList = _context.Products
             .Select(x => new SelectListItem
@@ -47,11 +49,13 @@ public class NewSaleModel : PageModel
                 Text = x.CustomerName + " " + x.CustomerSurname,
                 Value = x.CustomerID.ToString()
             }).ToList();
+
+       
     }
 
-    public async Task<IActionResult> OnPostAsync()
+    public async Task<IActionResult> OnPost()
     {
-       
+        
         await _context.SalesTransactions.AddAsync(SalesTransaction);
         await _context.SaveChangesAsync();
         return RedirectToPage("SalesTransaction");

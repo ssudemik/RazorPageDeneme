@@ -1,44 +1,56 @@
-﻿@page 
+﻿@page
 @model RazorPageDeneme.Pages.ProductFile.ProductSaleModel
-
-<h2>Product Sale</h2>
+@{
+    ViewData["Title"] = "Sale Product";
+}
 
 <form method="post">
-    <input hidden asp-for="Product.ProductID" />
+    <!-- ProductID'yi gizli alan olarak gönderiyoruz -->
+    <input type="hidden" asp-for="SalesTransaction.ProductID" value="@Model.Product.ProductID" />
+
     <div class="form-group">
-        <<div class="mb-3">
+        <div class="mb-3">
             <label asp-for="Product.ProductID"></label>
-            <input asp-for="@Model.Product.ProductName" class="form-control" readonly />
+            <input asp-for="@Model.Product.ProductID" class="form-control" readonly />
         </div>
     </div>
 
     <div class="form-group">
-        <label>Customer:</label>
-        <select asp-for="SalesTransaction.CustomerID" asp-items="Model.Customers" class="form-control"></select>
+        <label asp-for="SalesTransaction.CustomerID"></label>
+        <select asp-for="SalesTransaction.CustomerID" asp-items="Model.CustomerList" class="form-control" placeholder="Choose"></select>
     </div>
 
     <div class="form-group">
-        <label>Quantity:</label>
-        <input type="number" asp-for="SalesTransaction.Piece" class="form-control max=" 10" min="0" placeholder=" Choose " onchange="calculateTotal()" />
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Product.SalePrice"></label>
-        <input asp-for="@Model.Product.SalePrice" class="form-control" readonly/>
+        <label asp-for="SalesTransaction.Piece"></label>
+        <input asp-for="SalesTransaction.Piece" class="form-control" max="10" min="0" placeholder=" Choose"  id="pieceInput" placeholder="Enter Quantity" />
     </div>
 
     <div class="form-group">
-        <label>Total Price:</label>
-        <input type="text" id="totalPrice" class="form-control" readonly />
+        <label asp-for="SalesTransaction.Price"></label>
+        <input asp-for="SalesTransaction.Price" class="form-control" id="productPrice" value="@Model.Product.SalePrice" readonly />
     </div>
 
-    <button type="submit" class="btn btn-primary">Complete Sale</button>
+    <div class="form-group">
+        <label asp-for="SalesTransaction.SumPrice"></label>
+        <input asp-for="SalesTransaction.SumPrice" class="form-control" id="totalPrice" readonly />
+    </div>
+
+    <button class="btn btn-primary">Save</button>
 </form>
 
 <script>
-    function calculateTotal() {
-        var quantity = document.querySelector('input[name="SalesTransaction.Piece"]').value;
-        var price = parseFloat("@Model.Product.SalePrice");
-        document.getElementById('totalPrice').value = quantity * price;
+    document.addEventListener('DOMContentLoaded', function () {
+        // Ürün fiyatını al ve input'a yaz (Razor ile sayfa yüklenince fiyat yazılmıştır)
+        const price = parseFloat(document.getElementById('productPrice').value) || 0;
+
+       function calculateTotal() {
+        const price = parseFloat(document.getElementById('productPrice').value) || 0; // Birim fiyat
+        const piece = parseFloat(document.getElementById('pieceInput').value) || 0; // Adet
+        const total = price * piece; // Toplam fiyat
+        document.getElementById('totalPrice').value = total; // Toplamı "toplam fiyat" alanına yaz
     }
+
+    // Adet kutusundaki değişiklikleri dinle
+    document.getElementById('pieceInput').addEventListener('input', calculateTotal);
+    });
 </script>

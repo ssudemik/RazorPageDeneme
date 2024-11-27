@@ -12,11 +12,12 @@
     </div>
     <div class="form-group">
         <label asp-for="SalesTransaction.CustomerID"></label>
-        <select asp-for="SalesTransaction.CustomerID" asp-items="Model.CustomerList" class="form-control" placeholder=" Choose "></select>
+        <select asp-for="SalesTransaction.CustomerID" asp-items="Model.CustomerList" class="form-control" ></select>
+        <option value="">Select a customer</option>
     </div>
     <div class="form-group">
         <label asp-for="SalesTransaction.Piece"></label>
-        <input asp-for="SalesTransaction.Piece" class="form-control" id="pieceInput" placeholder="Adet seçiniz" />
+        <input asp-for="SalesTransaction.Piece" class="form-control" max="10" min="0" placeholder=" Choose" id="pieceInput" placeholder="Adet seçiniz" />
     </div>
 
     <div class="form-group">
@@ -52,7 +53,7 @@
         const price = parseFloat(document.getElementById('productPrice').value) || 0; // Birim fiyat
         const piece = parseFloat(document.getElementById('pieceInput').value) || 0; // Adet
         const total = price * piece; // Toplam fiyat
-        document.getElementById('totalPrice').value = total.toFixed(2); // Toplamı "toplam fiyat" alanına yaz
+        document.getElementById('totalPrice').value = total; // Toplamı "toplam fiyat" alanına yaz
     }
 
     // Adet kutusundaki değişiklikleri dinle
