@@ -1,51 +1,62 @@
 ﻿@page
 @model RazorPageDeneme.Pages.SaleFile.SalesTransactionModel
 @{
-    ViewData["Title"] = "Sales Transaction";
+
+    <br />
+    <h2>Sales</h2>
+    <br />
+    <table id="tbl1" class="table table-striped" style="margin-top:20px">
+        <thead class="thead-dark">
+            <tr>
+                <th> ID </th>
+                <th> Product </th>
+                <th> Customer </th>
+                <th> Piece </th>
+                <th> Price </th>
+                <th> Sum </th>
+                <th>  </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var c in Model.SalesTransactions)
+        {
+            //veri sıralama döngüsü.
+            //bir döngü oluşturdum. bu döngü c adında bir değişken içeriyor. c modele bağlı ,
+            //model kategoriye bağlı ,kategori de controller tarafındaki methoda bağlı
+
+            <tr>
+                <td> @c.SalesID </td>
+                <td> @c.ProductID </td>
+                <td> @c.CustomerID </td>
+                <td> @c.Piece </td>
+                <td> @c.Price </td>
+                <td> @c.SumPrice </td>
+
+                
+            </tr>
+        }
+        <tbody>
+    </table>
+
+    
+
+
+    <a asp-page="/SaleFile/NewSale" class="btn btn-info" style="color:white"> New Sale </a>
+
+
+
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>
+
+    <script>
+        $('#tbl1').dataTable({});
+    </script>
+
 }
 
-<h2>Sales Transaction</h2>
-
-<form method="post" class="form-group">
-    <!-- Hidden Product ID -->
-    <input hidden asp-for="SalesTransaction.ProductID" />
-
-    <div class="form-group">
-        <label>Product</label>
-        <select asp-for="SalesTransaction.ProductID" asp-items="Model.Products" class="form-control" onchange="updatePrice()">
-            <option value="">-- Select a Product --</option>
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label>Price</label>
-        <input type="text" class="form-control" value="@Model.Product?.SalePrice" id="txtPrice" readonly />
-    </div>
-
-    <div class="form-group">
-        <label>Customer</label>
-        <select asp-for="SalesTransaction.CustomerID" asp-items="Model.Customers" class="form-control">
-            <option value="">-- Select a Customer --</option>
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label>Quantity</label>
-        <input asp-for="SalesTransaction.Piece" type="number" class="form-control" id="txtQuantity" min="1" max="100" onchange="calculateTotal()" />
-    </div>
-
-    <div class="form-group">
-        <label>Total Price</label>
-        <input asp-for="SalesTransaction.SumPrice" class="form-control" id="txtTotal" readonly />
-    </div>
-
-    <button type="submit" class="btn btn-primary">Complete Sale</button>
-</form>
-
-<script>
-    function calculateTotal() {
-        var price = parseFloat(document.getElementById('txtPrice').value) || 0;
-        var quantity = parseInt(document.getElementById('txtQuantity').value) || 0;
-        document.getElementById('txtTotal').value = price * quantity;
-    }
-</script>

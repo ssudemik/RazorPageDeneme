@@ -40,7 +40,7 @@ namespace RazorPageDeneme.Pages.ProductFile
                 return Page();
             }
 
-            SalesTransaction.Date = DateTime.Now;
+           
             _context.SalesTransactions.Add(SalesTransaction);
 
             var productInDb = _context.Products.FirstOrDefault(p => p.ProductID == SalesTransaction.ProductID);

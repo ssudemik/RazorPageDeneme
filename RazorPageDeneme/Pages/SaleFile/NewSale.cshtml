@@ -1,0 +1,62 @@
+﻿@page
+@model RazorPageDeneme.Pages.SaleFile.NewSaleModel
+@{
+    ViewData["Title"] = "New Sale";
+}
+<h2>New Sale</h2>
+<br />
+<form class="form-group" method="post">
+    <div class="form-group">
+        <label asp-for="SalesTransaction.ProductID"></label>
+        <select asp-for="SalesTransaction.ProductID" asp-items="Model.ProductList" class="form-control" id="productSelect"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="SalesTransaction.CustomerID"></label>
+        <select asp-for="SalesTransaction.CustomerID" asp-items="Model.CustomerList" class="form-control" placeholder=" Choose "></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="SalesTransaction.Piece"></label>
+        <input asp-for="SalesTransaction.Piece" class="form-control" id="pieceInput" placeholder="Adet seçiniz" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="SalesTransaction.Price"></label>
+        <input asp-for="SalesTransaction.Price" class="form-control" id="productPrice" readonly />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="SalesTransaction.SumPrice"></label>
+        <input asp-for="SalesTransaction.SumPrice" class="form-control" id="totalPrice" readonly />
+    </div>
+
+    <button class="btn btn-primary">Save</button>
+</form>
+
+
+<script>
+    // Ürün seçimi değiştiğinde fiyatı getir ve alanı güncelle
+    document.getElementById('productSelect')
+        .addEventListener('change', function () {
+            const productId = this.value;
+            fetch(`/SaleFile/NewSale?handler=ProductPrice&productId=${productId}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('productPrice').value = data.price; // Fiyatı doldur
+                    calculateTotal(); // Toplam fiyatı güncelle
+                });
+        });
+
+    // Toplam fiyatı hesaplayan fonksiyon
+    function calculateTotal() {
+        const price = parseFloat(document.getElementById('productPrice').value) || 0; // Birim fiyat
+        const piece = parseFloat(document.getElementById('pieceInput').value) || 0; // Adet
+        const total = price * piece; // Toplam fiyat
+        document.getElementById('totalPrice').value = total.toFixed(2); // Toplamı "toplam fiyat" alanına yaz
+    }
+
+    // Adet kutusundaki değişiklikleri dinle
+    document.getElementById('pieceInput').addEventListener('input', calculateTotal);
+</script>
+
+
+
