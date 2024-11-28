@@ -45,15 +45,17 @@
 
                 </td>
                 <td>
-                        <a href="@Url.Page("/ProductFile/ProductDelete", new { id = p.ProductID })" class="btn btn-danger"> Delete </a>
-                </td>
+                        <a asp-page="/ProductFile/ProductDelete" asp-route-id="@p.ProductID" class="btn btn-danger"> Delete </a>
+                        
+                    </td>
                 <td>
-                        <a href="@Url.Page("/ProductFile/ProductUpdate", new { id = p.ProductID })" class="btn btn-success"> Update </a>
-                </td>
+                        <a asp-page="/ProductFile/ProductUpdate" asp-route-id="@p.ProductID" class="btn btn-success"> Update </a>
+                    </td>
                 <td>
 
-                     <a href="@Url.Page("/ProductFile/ProductSale", new { id = p.ProductID })" class="btn btn-success"> Sale </a>
-                </td>
+
+                        <a asp-page="/ProductFile/ProductSale" asp-route-id="@p.ProductID" class="btn btn-warning"> Sale </a>
+                    </td>
 
                     
 

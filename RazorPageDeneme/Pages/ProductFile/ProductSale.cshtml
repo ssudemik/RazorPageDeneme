@@ -1,17 +1,17 @@
-﻿@page
+﻿ @page
 @model RazorPageDeneme.Pages.ProductFile.ProductSaleModel
 @{
     ViewData["Title"] = "Sale Product";
 }
 
 <form method="post">
-    <!-- ProductID'yi gizli alan olarak gönderiyoruz -->
-    <input type="hidden" asp-for="SalesTransaction.ProductID" value="@Model.Product.ProductID" />
+    <!-- ProductID'yi SalesTransaction'a doğru bağlıyoruz -->
+    <input type="hidden" asp-for="SalesTransaction.ProductID" value="@Model.deneme.ProductID" />
 
     <div class="form-group">
         <div class="mb-3">
-            <label asp-for="Product.ProductID"></label>
-            <input asp-for="@Model.Product.ProductID" class="form-control" readonly />
+            <label asp-for="deneme.ProductName"></label>
+            <input asp-for="deneme.ProductName" class="form-control" readonly />
         </div>
     </div>
 
@@ -27,8 +27,9 @@
 
     <div class="form-group">
         <label asp-for="SalesTransaction.Price"></label>
-        <input asp-for="SalesTransaction.Price" class="form-control" id="productPrice" value="@Model.Product.SalePrice" readonly />
+        <input asp-for="SalesTransaction.Price" class="form-control" id="productPrice" readonly />
     </div>
+
 
     <div class="form-group">
         <label asp-for="SalesTransaction.SumPrice"></label>
@@ -39,18 +40,27 @@
 </form>
 
 <script>
+    // Ürün fiyatını getirme ve toplam fiyatı hesaplama
     document.addEventListener('DOMContentLoaded', function () {
-        // Ürün fiyatını al ve input'a yaz (Razor ile sayfa yüklenince fiyat yazılmıştır)
-        const price = parseFloat(document.getElementById('productPrice').value) || 0;
+        // Ürün ID'sini al ve ürüne bağlı fiyatı getir
+        const productId = '@Model.deneme.ProductID'; // Razor ile gelen ürün ID'si
+        if (productId) {
+            fetch(`/SaleFile/NewSale?handler=ProductPrice&productId=${productId}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('productPrice').value = data.price; // Fiyatı inputa yaz
+                });
+        }
 
-       function calculateTotal() {
-        const price = parseFloat(document.getElementById('productPrice').value) || 0; // Birim fiyat
-        const piece = parseFloat(document.getElementById('pieceInput').value) || 0; // Adet
-        const total = price * piece; // Toplam fiyat
-        document.getElementById('totalPrice').value = total; // Toplamı "toplam fiyat" alanına yaz
-    }
+        // Adet değiştiğinde toplam fiyatı hesapla
+        document.getElementById('pieceInput').addEventListener('input', function () {
+            const piece = parseInt(this.value) || 0; // Adet inputu, sayıya dönüştürülür
+            const price = parseFloat(document.getElementById('productPrice').value) || 0; // Ürün fiyatı
 
-    // Adet kutusundaki değişiklikleri dinle
-    document.getElementById('pieceInput').addEventListener('input', calculateTotal);
+            // Toplam fiyatı hesapla
+            const totalPrice = piece * price;
+            document.getElementById('totalPrice').value = totalPrice; // Toplam fiyatı göster
+        });
     });
 </script>
+

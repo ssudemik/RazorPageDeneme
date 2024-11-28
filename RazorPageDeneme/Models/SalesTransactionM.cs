@@ -27,8 +27,5 @@ namespace RazorPageDeneme.Models
         public int CustomerID { get; set; }
         public CustomerM Customer { get; set; }
 
-        
-        
-
     }
 }

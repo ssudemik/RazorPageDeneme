@@ -11,12 +11,12 @@ public class ProductM
     [Display(Name = " Product Name ")]
     [Column(TypeName = "Varchar")]
     [StringLength(50)]
-    public string? ProductName { get; set; }
+    public string ProductName { get; set; }
 
     [Display(Name = " Product Size ")]
     [Column(TypeName = "Varchar")]
     [StringLength(5)]
-    public string? ProductSize { get; set; }
+    public string ProductSize { get; set; }
 
     public short Stock { get; set; }
 
@@ -27,7 +27,6 @@ public class ProductM
     [Display(Name = " Product Visual ")]
     [Column(TypeName = "Varchar")]
     [StringLength(8000)]
-    public string? ProductVisual { get; set; }
-
+    public string ProductVisual { get; set; }
     public ICollection<SalesTransactionM> SalesTransactions { get; set; }
 }
