@@ -1,0 +1,39 @@
+﻿@page
+@model RazorPageDeneme.Pages.CustomerFile.CustomerDeleteModel
+@{
+    ViewData["Title"] = "Delete Customer";
+}
+<form method="post">
+    <input hidden asp-for="Customer.CustomerID" />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary pl-3">Delete Customer</h2>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Customer.CustomerName"></label>
+            <input asp-for="@Model.Customer.CustomerName" disabled class="form-control" />
+
+        </div>
+        <br />
+        <div class="mb-3">
+            <label asp-for="Customer.CustomerSurname"></label>
+            <input asp-for="@Model.Customer.CustomerSurname" disabled class="form-control" />
+
+        </div>
+        <br />
+        <div>
+            <label asp-for="Customer.CustomerCity"></label>
+            <input asp-for="@Model.Customer.CustomerCity" disabled class="form-control" />
+
+        </div>
+        <br />
+        <div class="mb-3">
+            <label asp-for="Customer.CustomerMail"></label>
+            <input asp-for="@Model.Customer.CustomerMail" disabled class="form-control" />
+
+        </div>
+        <br />
+        
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </div>
+</form>

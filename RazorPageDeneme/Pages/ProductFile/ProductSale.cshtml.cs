@@ -25,7 +25,6 @@ namespace RazorPageDeneme.Pages.ProductFile
 
         public JsonResult OnGetProductPrice(int productId)
         {
-            // ProductID'ye göre ürün bilgilerini getir
             var product = _context.Products.FirstOrDefault(p => p.ProductID == productId);
             if (product != null)
             {
@@ -33,7 +32,7 @@ namespace RazorPageDeneme.Pages.ProductFile
             }
             return new JsonResult(new { price = 0 }); // Ürün bulunamazsa 0 döner
         }
-       
+
         public void OnGet(int id)
         {
 
@@ -49,22 +48,28 @@ namespace RazorPageDeneme.Pages.ProductFile
 
         public async Task<IActionResult> OnPost()
         {
-            var product = _context.Products.FirstOrDefault(p => p.ProductID == SalesTransaction.ProductID);
 
+            var product = _context.Products.FirstOrDefault(p => p.ProductID == SalesTransaction.ProductID);
+            if (product != null)
+            {
                 if (product.Stock >= SalesTransaction.Piece)
                 {
-                    // Stok düþ
+
                     product.Stock -= (short)SalesTransaction.Piece;
                     _context.Products.Update(product);
                 }
                 else
                 {
-                    // Stok yetersizse hata mesajý
                     ModelState.AddModelError("", "Not enough stock for the selected product.");
-                    return Page(); // Ayný sayfaya dön
+                    return Page(); 
                 }
-          
 
+            }
+            else
+            {
+                ModelState.AddModelError("", "Product not found.");
+                return Page();
+            }
             await _context.SalesTransactions.AddAsync(SalesTransaction);
             await _context.SaveChangesAsync();
             return Redirect("Product");

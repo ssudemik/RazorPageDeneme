@@ -39,6 +39,12 @@ namespace RazorPageDeneme
 
             app.UseAuthorization();
 
+            app.MapGet("/", context =>
+            {
+                context.Response.Redirect("/ProductFile/Product");
+                return Task.CompletedTask;
+            });
+
             app.MapRazorPages();
 
             app.Run();

@@ -1,0 +1,44 @@
+﻿@page
+@model RazorPageDeneme.Pages.ProductFile.ProductDeleteModel
+@{
+    ViewData["Title"] = "Delete Product";
+}
+<form method="post">
+    <input hidden asp-for="Product.ProductID" />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary pl-3">Delete Product</h2>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Product.ProductName"></label>
+            <input asp-for="@Model.Product.ProductName" disabled class="form-control" />
+        </div>
+        <br />
+        <div class="mb-3">
+            <label asp-for="Product.ProductSize"></label>
+            <input asp-for="@Model.Product.ProductSize" disabled class="form-control" />
+
+        </div>
+        <br />
+        <div>
+            <label asp-for="Product.Stock"></label>
+            <input asp-for="@Model.Product.Stock" disabled class="form-control" />
+
+        </div>
+        <br />
+        <div class="mb-3">
+            <label asp-for="Product.SalePrice"></label>
+            <input asp-for="@Model.Product.SalePrice" disabled class="form-control" />
+
+        </div>
+        <br />
+        
+        <br />
+        <div class="mb-3">
+            <label asp-for="Product.ProductVisual"></label>
+            <input asp-for="@Model.Product.ProductVisual" disabled class="form-control" />
+        </div>
+        <br />
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </div>
+</form>
