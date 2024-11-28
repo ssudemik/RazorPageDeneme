@@ -36,6 +36,7 @@ namespace RazorPageDeneme.Pages.ProductFile
        
         public void OnGet(int id)
         {
+
             deneme = _context.Products.FirstOrDefault(p => p.ProductID == id);
 
             CustomerList = _context.Customers
@@ -48,9 +49,25 @@ namespace RazorPageDeneme.Pages.ProductFile
 
         public async Task<IActionResult> OnPost()
         {
+            var product = _context.Products.FirstOrDefault(p => p.ProductID == SalesTransaction.ProductID);
+
+                if (product.Stock >= SalesTransaction.Piece)
+                {
+                    // Stok düþ
+                    product.Stock -= (short)SalesTransaction.Piece;
+                    _context.Products.Update(product);
+                }
+                else
+                {
+                    // Stok yetersizse hata mesajý
+                    ModelState.AddModelError("", "Not enough stock for the selected product.");
+                    return Page(); // Ayný sayfaya dön
+                }
+          
+
             await _context.SalesTransactions.AddAsync(SalesTransaction);
             await _context.SaveChangesAsync();
-            return Redirect("/SaleFile/SalesTransaction");
+            return Redirect("Product");
         }
 
     }
